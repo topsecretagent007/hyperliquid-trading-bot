@@ -1,0 +1,52 @@
+# Hyperliquid Trading Bot Configuration
+# Production configuration - USE WITH CAUTION!
+
+[hyperliquid]
+base_url = "https://api.hyperliquid.xyz"
+ws_url = "wss://api.hyperliquid.xyz/ws"
+api_key = ""  # Set via environment variable HYPERLIQUID_API_KEY
+private_key = ""  # Set via environment variable HYPERLIQUID_PRIVATE_KEY
+testnet = false  # MAINNET - LIVE TRADING!
+
+[trading]
+dry_run = false  # LIVE TRADING ENABLED!
+max_positions = 5  # Conservative for production
+default_slippage = 0.5  # 0.5% - tighter slippage
+order_timeout_seconds = 15
+retry_attempts = 2
+retry_delay_ms = 2000
+
+[risk_management]
+max_daily_loss = 500.0  # $500 - conservative
+max_position_size = 5000.0  # $5000 - conservative
+stop_loss_percentage = 3.0  # 3% - tighter stop loss
+take_profit_percentage = 6.0  # 6% - tighter take profit
+max_drawdown_percentage = 10.0  # 10% - very conservative
+
+[logging]
+level = "info"
+file_path = "logs/bot_production.log"
+max_file_size_mb = 200
+max_files = 20
+
+# Conservative strategy configurations for production
+[strategies.dca_btc]
+enabled = true
+strategy_type = "dca"
+symbol = "BTC"
+position_size = 50.0  # Smaller position size
+parameters = { investment_amount = "50", interval_hours = "48", max_investment = "2000", lookback_period = "30" }
+
+[strategies.grid_eth]
+enabled = false  # Disabled for production safety
+strategy_type = "grid"
+symbol = "ETH"
+position_size = 25.0
+parameters = { grid_spacing = "2.0", position_size = "25", max_levels = "5", max_investment = "1000" }
+
+[strategies.momentum_sol]
+enabled = true
+strategy_type = "momentum"
+symbol = "SOL"
+position_size = 30.0  # Smaller position size
+parameters = { fast_period = "20", slow_period = "50", rsi_period = "21", min_confidence = "0.8" }

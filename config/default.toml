@@ -1,0 +1,52 @@
+# Hyperliquid Trading Bot Configuration
+# Default configuration file
+
+[hyperliquid]
+base_url = "https://api.hyperliquid.xyz"
+ws_url = "wss://api.hyperliquid.xyz/ws"
+api_key = ""  # Set via environment variable HYPERLIQUID_API_KEY
+private_key = ""  # Set via environment variable HYPERLIQUID_PRIVATE_KEY
+testnet = true  # Set to false for mainnet
+
+[trading]
+dry_run = true  # Set to false for live trading
+max_positions = 10
+default_slippage = 1.0  # 1%
+order_timeout_seconds = 30
+retry_attempts = 3
+retry_delay_ms = 1000
+
+[risk_management]
+max_daily_loss = 1000.0  # $1000
+max_position_size = 10000.0  # $10000
+stop_loss_percentage = 5.0  # 5%
+take_profit_percentage = 10.0  # 10%
+max_drawdown_percentage = 20.0  # 20%
+
+[logging]
+level = "info"
+file_path = "logs/bot.log"
+max_file_size_mb = 100
+max_files = 10
+
+# Strategy configurations
+[strategies.dca_btc]
+enabled = true
+strategy_type = "dca"
+symbol = "BTC"
+position_size = 100.0
+parameters = { investment_amount = "100", interval_hours = "24", max_investment = "5000", lookback_period = "20" }
+
+[strategies.grid_eth]
+enabled = true
+strategy_type = "grid"
+symbol = "ETH"
+position_size = 50.0
+parameters = { grid_spacing = "1.0", position_size = "50", max_levels = "10", max_investment = "3000" }
+
+[strategies.momentum_sol]
+enabled = true
+strategy_type = "momentum"
+symbol = "SOL"
+position_size = 75.0
+parameters = { fast_period = "12", slow_period = "26", rsi_period = "14", min_confidence = "0.6" }
